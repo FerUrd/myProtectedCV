@@ -1,2 +1,0 @@
-# myProtectedCV
-CV Fernando encrypted
