@@ -65,18 +65,18 @@
 </head>
 <body>
     <h1>Posibles Vacaciones Urdiales</h1>
-    <table>
+    <table id="tabla">
         <thead>
             <tr>
-                <th>#</th>
-                <th>Opción</th>
-                <th>Dónde</th>
-                <th>Precio (EUR)</th>
-                <th>Casa o Apto</th>
-                <th>Reservado</th>
-                <th>Playa</th>
-                <th>Melvinable</th>
-                <th>Imagen</th>
+                <th>#<br><select id="filtroID"></select></th>
+                <th>Opción<br><select id="filtroOpción"></select></th>
+                <th>Dónde<br><select id="filtroDónde"></select></th>
+                <th>Precio (EUR)<br><select id="filtroPrecio"></select></th>
+                <th>Casa o Apto<br><select id="filtroCasa"></select></th>
+                <th>Reservado<br><select id="filtroReservado"></select></th>
+                <th>Playa<br><select id="filtroPlaya"></select></th>
+                <th>Melvinable<br><select id="filtroMelvinable"></select></th>
+                <th>Imagen<br><select id="filtroImagen"></select></th>
                 
             </tr>
         </thead>
@@ -270,5 +270,41 @@
             </tr>
         </tbody>
     </table>
+        <script>
+        function crearFiltro(colIndex, selectId) {
+            const filas = document.querySelectorAll("#tabla tbody tr");
+            const valores = new Set();
+
+            filas.forEach(f => valores.add(f.children[colIndex].textContent));
+
+            const select = document.getElementById(selectId);
+            select.innerHTML = '<option value="">(todos)</option>';
+
+            valores.forEach(v => {
+                select.innerHTML += `<option value="${v}">${v}</option>`;
+            });
+
+            select.onchange = () => filtrar(colIndex, select.value);
+        }
+
+        function filtrar(col, valor) {
+            const filas = document.querySelectorAll("#tabla tbody tr");
+            filas.forEach(f => {
+                const celda = f.children[col].textContent;
+                f.style.display = valor === "" || celda === valor ? "" : "none";
+            });
+        }
+
+        // Crear filtros automáticamente
+        crearFiltro(0, "filtroID");
+        crearFiltro(1, "filtroOpción");
+        crearFiltro(2, "filtroDónde");
+        crearFiltro(3, "filtroPrecio");
+        crearFiltro(4, "filtroCasa");
+        crearFiltro(5, "filtroReservado");
+        crearFiltro(6, "filtroPlaya");
+        crearFiltro(7, "filtroMelvinable");
+        crearFiltro(8, "filtroImagen");
+    </script>
 </body>
 </html>
